@@ -26,16 +26,15 @@ def publish(client):
     msg_count = 1
     while True:
         msg = f"messages: {msg_count}"
-        topic = "python/mqtt" + str(random.randint(0,1000))
+        topic = "unit.pepemoss.com/output/fb173ae2-80b1-4a5f-9d9d-61aee7b859ec/one/pepeunit"
         result = client.publish(topic, msg)
         # result: [0, 1]
         status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
-            print(f"Failed to send message to topic {topic}")
 
         msg_count+=1
+        if msg_count % 10000 == 0:
+
+            print(time.perf_counter())
 
 
 def run(client_id):
@@ -77,12 +76,13 @@ def get_uuid_images(images_path, results):
 
 def gen_dataset() -> list[str]:
     
-    client_ids = [f'pub-{str(item)}' for item in range(0, 36)]
+    client_ids = [
+        '<token>' for item in range(0, 36)]
 
     jobs = SimpleQueue()
     results = SimpleQueue()
 
-    start_jobs(cpu_count(), jobs, results, client_ids)
+    start_jobs(1, jobs, results, client_ids)
 
     return get_uuid_images(client_ids, results)
 
