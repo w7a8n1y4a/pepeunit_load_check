@@ -33,7 +33,7 @@ async def test():
         results = await asyncio.gather(*(redis_get_set(item, redis) for item in range(9998)))
         print(len(results))
 
-    await redis.aclose()
+    await redis.close()
     print(f'avg_time: {(time.perf_counter() - start)/10}')
 
 asyncio.run(test())
